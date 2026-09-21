@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores Amarillas - 21 de Septiembre</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0d1b2a, #1b263b);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow: hidden;
+            text-align: center;
+            user-select: none;
+            padding-top: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffd166;
+            text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+            margin-bottom: 10px;
+            pointer-events: none;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #e0e1dd;
+            margin-bottom: 10px;
+            pointer-events: none;
+        }
+
+        .hint {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Contenedor interactivo */
+        #garden {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        /* Estructura de la flor */
+        .flower {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            transform: translate(-50%, -50%) scale(0);
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            pointer-events: none;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            background: #e67e22;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        .petal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 22px;
+            height: 45px;
+            background: linear-gradient(to top, #f1c40f, #ffeb3b);
+            border-radius: 50% 50% 10% 10%;
+            transform-origin: center bottom;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        /* Tallo de la flor */
+        .stem {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 90px;
+            background: #2ecc71;
+            transform: translateX(-50%);
+            z-index: 1;
+            border-radius: 2px;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-10deg); }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>✨ 21 de Septiembre ✨</h1>
+    <p>Un detalle especial para iluminar este día 🌻</p>
+    <p class="hint">💡 Haz clic en cualquier parte de la pantalla para hacer florecer más flores</p>
+
+    <div id="garden"></div>
+
+    <script>
+        const garden = document.getElementById('garden');
+
+        function createFlower(x, y) {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.style.left = `${x}px`;
+            flower.style.top = `${y}px`;
+
+            // Crear el tallo
+            const stem = document.createElement('div');
+            stem.className = 'stem';
+            flower.appendChild(stem);
+
+            // Crear el centro
+            const center = document.createElement('div');
+            center.className = 'center';
+            flower.appendChild(center);
+
+            // Crear 8 pétalos amarillos
+            const totalPetals = 8;
+            for (let i = 0; i < totalPetals; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const angle = (360 / totalPetals) * i;
+                petal.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
+                flower.appendChild(petal);
+            }
+
+            garden.appendChild(flower);
+        }
+
+        // Crear flores iniciales al cargar
+        window.onload = () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            // Tres flores al centro de la pantalla
+            createFlower(width / 2, height / 2 + 30);
+            createFlower(width / 2 - 100, height / 2 + 50);
+            createFlower(width / 2 + 100, height / 2 + 50);
+        };
+
+        // Crear flor en cada clic
+        garden.addEventListener('click', (e) => {
+            createFlower(e.clientX, e.clientY);
+        });
+    </script>
+</body>
+</html>
